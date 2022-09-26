@@ -41,14 +41,21 @@ DROP DATABASE IF EXISTS SpotifyClone;
   ) engine = InnoDB;
 
   CREATE TABLE SpotifyClone.historico_de_reproducoes(
-      usuario_id INT NOT NULL,
-      musica_id INT NOT NULL,
-      data_reproducao DATE,
-			CONSTRAINT PRIMARY KEY (usuario_id, musica_id),
-      FOREIGN KEY (usuario_id) REFERENCES SpotifyClone.usuario (id),
-      FOREIGN KEY (musica_id) REFERENCES SpotifyClone.musica (id)  
+    usuario_id INT NOT NULL,
+    musica_id INT NOT NULL,
+    data_reproducao DATETIME,
+    CONSTRAINT PRIMARY KEY(musica_id,usuario_id),
+    FOREIGN KEY (musica_id)  REFERENCES SpotifyClone.musica (id),
+    FOREIGN KEY (usuario_id)  REFERENCES SpotifyClone.usuario (id)
   ) engine = InnoDB;
 
+	CREATE TABLE SpotifyClone.seguindo_artista(
+    usuario_id INT NOT NULL,
+    artista_id INT NOT NULL,
+    PRIMARY KEY(usuario_id, artista_id),
+    FOREIGN KEY (usuario_id)  REFERENCES SpotifyClone.usuario (id),
+    FOREIGN KEY (artista_id)  REFERENCES SpotifyClone.artista (id)
+  ) engine = InnoDB;
 
   INSERT INTO SpotifyClone.plano (nome, valor)
   VALUES
@@ -102,3 +109,39 @@ DROP DATABASE IF EXISTS SpotifyClone;
     ('Samba em Paris', 4, 6, 267),
 		('The Bard''s Song', 5, 7, 244),
 		('Feeling Good', 6, 8, 100);
+
+	INSERT INTO SpotifyClone.historico_de_reproducoes (usuario_id, musica_id, data_reproducao)
+	VALUES
+		(1, 8, '2022-02-28 10:45:55'),
+    (1, 2, '2020-05-02 05:30:35'),
+    (1, 10, '2020-03-06 11:22:33'),
+    (2, 10, '2022-08-05 08:05:17'),
+    (2, 7, '2020-01-02 07:40:33'),
+    (3, 10, '2020-11-13 16:55:13'),
+    (3, 2, '2020-12-05 18:38:30'),
+    (4, 8, '2021-08-15 17:10:10'),
+    (5, 8, '2022-01-09 01:44:33'),
+    (5, 5, '2020-08-06 15:23:43'),
+    (6, 7, '2017-01-24 00:31:17'),
+    (6, 1, '2017-10-12 12:35:20'),
+    (7, 4, '2011-12-15 22:30:49'),
+    (8, 4, '2012-03-17 14:56:41'),
+    (9, 9, '2022-02-24 21:14:22'),
+    (10, 3, '2015-12-13 08:30:22');
+
+			INSERT INTO SpotifyClone.seguindo_artista (usuario_id, artista_id)
+	VALUES
+		(1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 1),
+    (2, 3),
+    (3, 2),
+    (4, 4),
+    (5, 5),
+    (5, 6),
+    (6, 6),
+    (6, 1),
+    (7, 6),
+    (9, 3),
+    (10, 2);
